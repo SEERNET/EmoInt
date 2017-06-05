@@ -12,6 +12,7 @@ from emoint.featurizers.senti_wordnet_featurizer import SentiWordNetFeaturizer
 from emoint.featurizers.sentiment140_featurizer import Sentiment140Featurizer
 from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
 from emoint.featurizers.base_featurizers import Featurizer
+from emoint.featurizers.emoji_featurizer import EmojiEmbeddingsFeaturizer
 
 
 class EmoIntFeaturizer(Featurizer):
@@ -28,17 +29,18 @@ class EmoIntFeaturizer(Featurizer):
         self.featurizers = [
             AFINNValenceFeaturizer(),
             BingLiuFeaturizer(),
-            EdinburghEmbeddingsFeaturizer(),
             MPQAEffectFeaturizer(),
-            NegationFeaturizer(),
             NRCAffectIntensityFeaturizer(),
             NRCEmotionFeaturizer(),
             NRCExpandedEmotionFeaturizer(),
             NRCHashtagEmotionFeaturizer(),
             NRCHashtagSentimentFeaturizer(),
-            SentiWordNetFeaturizer(),
             Sentiment140Featurizer(),
-            SentiStrengthFeaturizer()
+            SentiWordNetFeaturizer(),
+            SentiStrengthFeaturizer(),
+            NegationFeaturizer(),
+            EdinburghEmbeddingsFeaturizer(),
+            EmojiEmbeddingsFeaturizer()
         ]
         self._features = self.collect_features(self.featurizers)
 

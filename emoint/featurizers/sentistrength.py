@@ -1,8 +1,6 @@
 from emoint.featurizers.base_featurizers import Featurizer
 from emoint.featurizers.utils import senti_strength_jar_path, senti_strength_dir_path
-import subprocess
-import shlex
-import re
+import os
 
 """
 Info: http://sentistrength.wlv.ac.uk/
@@ -28,6 +26,19 @@ class SentiStrengthFeaturizer(Featurizer):
         self._id = 'SentiStrength'
         self.jar_path = jar_path
         self.dir_path = dir_path
+
+        if 'CLASSPATH' in os.environ:
+            os.environ['CLASSPATH'] += ":" + jar_path
+        else:
+            os.environ['CLASSPATH'] = jar_path
+
+        # Add jar to class path
+        # Create and initialize the SentiStrength class
+        from jnius import autoclass
+
+        self.senti_obj = autoclass('uk.ac.wlv.sentistrength.SentiStrength')()
+        self.senti_obj.initialise(["sentidata", senti_strength_dir_path,"trinary"])
+
         self._citation = 'Thelwall, Mike, et al. "Sentiment strength detection in short informal text." Journal of' \
                          ' the American Society for Information Science and Technology 61.12 (2010): 2544-2558.'
 
@@ -39,12 +50,7 @@ class SentiStrengthFeaturizer(Featurizer):
         """This function returns sum of intensities of positive and negative tokens
         :param tokens list of tokens
         """
-        p = subprocess.Popen(shlex.split("java -jar {} stdin sentidata {}".format(self.jar_path, self.dir_path)),
-                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout_text, stderr_text = p.communicate('+'.join(tokens).encode('utf-8'))
-        stdout_text = re.sub('\s+', ' ', stdout_text)
-        splits = stdout_text.rstrip().split(' ')
-        return [
-            sum(float(splits[i]) for i in xrange(0, len(splits), 2)),
-            sum(float(splits[i]) for i in xrange(1, len(splits), 2))
-        ]
+        data = '+'.join(tokens).encode('utf-8')
+        score = self.senti_obj.computeSentimentScores(data)
+        splits = score.rstrip().split(' ')
+        return [float(splits[0]), float(splits[1])]
