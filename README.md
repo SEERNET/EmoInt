@@ -1,9 +1,9 @@
 # EmoInt
-EmoInt can used for [affective computing](https://en.wikipedia.org/wiki/Affective_computing)
+EmoInt can be used for [affective computing](https://en.wikipedia.org/wiki/Affective_computing)
 like sentiment analysis, emotion classification, emotion intensity computing etc. This project is developed
 during [WASSA 2017](http://optima.jrc.it/wassa2017/) Emotion Intensity Task. It is inspired by
 [AffectiveTweets](https://github.com/felipebravom/AffectiveTweets) repo (baseline model for the Emotion Intensity Task).
-This project project has scripts for ensemble creation. Finally we'll demo the sample application go live using
+This project contains scripts for ensemble creation. Finally we'll demo the sample application go live using
 [Google Cloud](https://cloud.google.com/).
 
 ## Install
