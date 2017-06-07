@@ -15,7 +15,7 @@ setup(
     url='https://github.com/seernet/EmoInt',
     author='Venkatesh Duppada',
     author_email='venkatesh.duppada@seernet.io',
-    license='MIT',
+    license='GPLv3',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
@@ -23,7 +23,6 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        # Todo - Make it python 3 compatible ?
         'Programming Language :: Python :: 3',
     ],
     keywords='sentiment emotion affective computing machine learning',

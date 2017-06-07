@@ -25,7 +25,7 @@ class Featurizer(object):
 
     @abstractmethod
     def featurize(self, tokens):
-        """Method to create features from of tokens"""
+        """Method to create features from the tokens"""
         raise NotImplementedError("Implement method to featurize tokens")
 
     @property
