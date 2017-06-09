@@ -27,6 +27,11 @@ setup(
     ],
     keywords='sentiment emotion affective computing machine learning',
     packages=find_packages(),
+    setup_requires=[
+        # Setuptools 18.0 properly handles Cython extensions.
+        'setuptools>=18.0',
+        'cython',
+    ],
     install_requires=[],
     extras_require={},
     package_data={
