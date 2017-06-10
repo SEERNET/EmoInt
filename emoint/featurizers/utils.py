@@ -9,6 +9,11 @@ def get_bigrams(tokens):
 def resource_path():
     return join(dirname(__file__), '..', 'resources')
 
+def merge_two_dicts(x, y):
+    """Given two dicts, merge them into a new dict as a shallow copy."""
+    z = x.copy()
+    z.update(y)
+    return z
 
 # resource paths
 afinn_lexicon_path = join(resource_path(), 'AFINN-en-165.txt.gz')

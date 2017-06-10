@@ -27,10 +27,11 @@ class SentiWordNetFeaturizer(SentimentIntensityLexiconFeaturizer):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = defaultdict(float)
             for l in lines:
+                l = l.decode('utf-8')
                 if l.strip().startswith('#'):
                     continue
                 splits = l.split('\t')

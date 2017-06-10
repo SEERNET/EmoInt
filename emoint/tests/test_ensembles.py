@@ -22,9 +22,10 @@ class TestEnsembles(unittest.TestCase):
 
         out_file = path.join(self.test_dir, out_file)
         self.ensembler.ensemble('{}/prediction*'.format(self.test_dir), out_file, ensemble_type=ens_type, weights=w)
-        got = open(out_file).read().splitlines()
+        with open(out_file, 'r') as f:
+            got = f.read().splitlines()
         self.assertListEqual(
-            [float(x) for x in open(out_file).read().splitlines()],
+            [float(x) for x in got],
             expected,
             msg='Expected: {} != Got: {}'.format(expected, got)
         )

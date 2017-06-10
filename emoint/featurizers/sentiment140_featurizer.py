@@ -1,5 +1,6 @@
 from emoint.featurizers.base_featurizers import SentimentIntensityLexiconFeaturizer
-from emoint.featurizers.utils import get_bigrams, sentiment140_unigram_lexicon_path, sentiment140_bigram_lexicon_path
+from emoint.featurizers.utils import get_bigrams, sentiment140_unigram_lexicon_path, sentiment140_bigram_lexicon_path,\
+    merge_two_dicts
 
 """
 Info: http://saifmohammad.com/WebPages/lexicons.html
@@ -33,9 +34,9 @@ class Sentiment140Featurizer(SentimentIntensityLexiconFeaturizer):
         :param bigram use bigram lexicons or not (default: True)
         """
         self._id = 'Sentiment140'
-        self._lexicon_map = dict(
-            self.create_lexicon_mapping(unigram_lexicons_path).items() +
-            self.create_lexicon_mapping(bigram_lexicons_path).items()
+        self._lexicon_map = merge_two_dicts(
+            self.create_lexicon_mapping(unigram_lexicons_path),
+            self.create_lexicon_mapping(bigram_lexicons_path)
         )
         self._citation = 'Mohammad, Saif M., Svetlana Kiritchenko, and Xiaodan Zhu. ' \
                          '"NRC-Canada: Building the state-of-the-art in sentiment analysis of tweets."' \

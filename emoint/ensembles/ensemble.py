@@ -46,14 +46,15 @@ class Ensembler:
         supported = ["amean", "gmean", "vote"]
         assert ensemble_type in supported, "Unsupported ensemble type. Choose one from {}".format(supported)
 
-        with open(ensemble_pred_file, "wb") as out_file:
+        with open(ensemble_pred_file, "w") as out_file:
             l = []
             files = sorted(glob(pred_files))
             if weights is not None:
                 assert len(files) == len(weights), "Provide weights to all prediction files"
             for i, glob_file in enumerate(files):
-                lines = [float(x) for x in open(glob_file).read().splitlines()]
-                l.append(lines)
+                with open(glob_file, 'r') as f:
+                    lines = [float(x) for x in f.read().splitlines()]
+                    l.append(lines)
             zl = zip(*l)
             output = []
             for x in zl:
