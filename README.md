@@ -1,4 +1,7 @@
 # EmoInt
+[![Build Status](https://api.travis-ci.org/SEERNET/EmoInt.svg)](https://travis-ci.org/SEERNET/EmoInt)
+[![Coverage Status](https://coveralls.io/repos/github/SEERNET/EmoInt/badge.svg)](https://coveralls.io/github/SEERNET/EmoInt)
+
 EmoInt can be used for [affective computing](https://en.wikipedia.org/wiki/Affective_computing)
 like sentiment analysis, emotion classification, emotion intensity computing etc. This project is developed
 during [WASSA 2017](http://optima.jrc.it/wassa2017/) Emotion Intensity Task. It is inspired by
