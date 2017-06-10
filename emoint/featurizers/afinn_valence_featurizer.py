@@ -1,6 +1,6 @@
 # coding=utf-8
 from emoint.featurizers.base_featurizers import SentimentIntensityLexiconFeaturizer
-from emoint.featurizers.utils import get_bigrams
+from emoint.featurizers.utils import get_bigrams, merge_two_dicts
 from emoint.featurizers.utils import afinn_lexicon_path, afinn_emoticon_path
 
 """
@@ -30,8 +30,8 @@ class AFINNValenceFeaturizer(SentimentIntensityLexiconFeaturizer):
         :param bigram use bigram lexicons or not (default: True)
         """
         self._id = 'AFINN'
-        self._lexicon_map = dict(self.create_lexicon_mapping(lexicons_path).items() +
-                                 self.create_lexicon_mapping(emoticon_path).items())
+        self._lexicon_map = merge_two_dicts(self.create_lexicon_mapping(lexicons_path),
+                                 self.create_lexicon_mapping(emoticon_path))
         self._citation = 'Nielsen, Finn Årup. "A new ANEW: Evaluation of a word list for sentiment analysis in' \
                          ' microblogs." arXiv preprint arXiv:1103.2903 (2011).'
         self.bigram = bigram

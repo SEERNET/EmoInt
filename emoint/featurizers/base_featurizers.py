@@ -81,11 +81,11 @@ class EmbeddingFeaturizer(Featurizer):
         """Creates a map from words to word embeddings
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = {}
             for l in lines:
-                splits = l.split('\t')
+                splits = l.decode('utf-8').split('\t')
                 # assert (self.dim == len(splits) - 1)
                 lexicon_map[splits[-1]] = [float(num) for num in splits[:-1]]
         return lexicon_map
@@ -104,11 +104,11 @@ class SentimentLexiconFeaturizer(LexiconFeaturizer):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = {}
             for l in lines:
-                splits = l.split('\t')
+                splits = l.decode('utf-8').split('\t')
                 lexicon_map[splits[0]] = splits[1]
         return lexicon_map
 
@@ -139,11 +139,11 @@ class SentimentIntensityLexiconFeaturizer(LexiconFeaturizer):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = {}
             for l in lines:
-                splits = l.split('\t')
+                splits = l.decode('utf-8').split('\t')
                 lexicon_map[splits[0]] = float(splits[1])
         return lexicon_map
 
@@ -182,13 +182,12 @@ class EmotionLexiconFeaturizer(LexiconFeaturizer):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = defaultdict(list)
 
-            headers = lines[0].split('\t')[1:]
             for l in lines[1:]:
-                splits = l.split('\t')
+                splits = l.decode('utf-8').split('\t')
                 lexicon_map[splits[0]] = [float(num) for num in splits[1:]]
 
         return lexicon_map

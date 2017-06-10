@@ -34,11 +34,11 @@ class NegationFeaturizer(Featurizer):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path) as f:
+        with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
             lexicon_map = defaultdict(int)
             for l in lines:
-                splits = l.split('\t')
+                splits = l.decode('utf-8').split('\t')
                 lexicon_map[splits[0]] += 1
         return lexicon_map
 

@@ -50,7 +50,7 @@ class SentiStrengthFeaturizer(Featurizer):
         """This function returns sum of intensities of positive and negative tokens
         :param tokens list of tokens
         """
-        data = '+'.join(tokens).encode('utf-8')
+        data = '+'.join(tokens).encode('utf-8').decode("utf-8", "ignore")
         score = self.senti_obj.computeSentimentScores(data)
         splits = score.rstrip().split(' ')
         return [float(splits[0]), float(splits[1])]
