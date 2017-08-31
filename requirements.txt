@@ -1,3 +1,4 @@
+--extra-index-url https://seernet-pypi.herokuapp.com/
 Cython
 xgboost
 sklearn
@@ -5,3 +6,5 @@ pandas
 scipy
 numpy
 jnius
+tweetokenize
+nltk

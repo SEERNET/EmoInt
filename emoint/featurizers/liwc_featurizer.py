@@ -46,6 +46,7 @@ class LIWCFeaturizer(Featurizer):
         """Initialize LIWC Lexicon Featurizer
         :param lexicons_path path to lexicons file
         """
+        nltk.download('punkt', quiet=True)
         self._id = 'LIWC'
         self.categories, self.liwc_trie = self.create_lexicon_mapping(lexicons_path)
         self._features = ['total_word_count', 'avg_sentence_length', 'dictionary_words',
