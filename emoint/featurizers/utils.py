@@ -9,11 +9,13 @@ def get_bigrams(tokens):
 def resource_path():
     return join(dirname(__file__), '..', 'resources')
 
+
 def merge_two_dicts(x, y):
     """Given two dicts, merge them into a new dict as a shallow copy."""
     z = x.copy()
     z.update(y)
     return z
+
 
 # resource paths
 afinn_lexicon_path = join(resource_path(), 'AFINN-en-165.txt.gz')
@@ -37,3 +39,7 @@ negation_lexicon_path = join(resource_path(), 'NegatingWordList.txt.gz')
 edinburgh_embedding_path = join(resource_path(), 'w2v.twitter.edinburgh.100d.csv.gz')
 emoji_embedding_path = join(resource_path(), 'emoji2vec.txt.gz')
 emoint_data = join(resource_path(), 'emoint/')
+liwc_lexicon_path = join(resource_path(), 'LIWC2007.dic')
+emoji_sentiment_ranking_path = join(resource_path(), 'Emoji_Sentiment_Data_v1.0.csv')
+
+

@@ -43,15 +43,17 @@ class NRCHashtagSentimentFeaturizer(SentimentIntensityLexiconFeaturizer):
                          ' arXiv preprint arXiv:1308.6242 (2013).'
         self.bigram = bigram
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """Featurize tokens using Saif Mohammad NRC Hashtag Sentiment Lexicon featurizer
-        :param tokens tokens to featurize
+        :param tokenizer: tokenizer to tokenize text
+        :param text text to tokenize
         """
+        tokens = tokenizer.tokenize(text)
         unigrams = tokens
         if self.bigram:
             bigrams = get_bigrams(tokens)
             return [x + y for x, y in
-                    zip(super(NRCHashtagSentimentFeaturizer, self).featurize(unigrams),
-                        super(NRCHashtagSentimentFeaturizer, self).featurize(bigrams))]
+                    zip(super(NRCHashtagSentimentFeaturizer, self).featurize_tokens(unigrams),
+                        super(NRCHashtagSentimentFeaturizer, self).featurize_tokens(bigrams))]
         else:
-            return super(NRCHashtagSentimentFeaturizer, self).featurize(unigrams)
+            return super(NRCHashtagSentimentFeaturizer, self).featurize_tokens(unigrams)

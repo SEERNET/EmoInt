@@ -13,6 +13,7 @@ from emoint.featurizers.sentiment140_featurizer import Sentiment140Featurizer
 from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
 from emoint.featurizers.base_featurizers import Featurizer
 from emoint.featurizers.emoji_featurizer import EmojiEmbeddingsFeaturizer
+from emoint.featurizers.liwc_featurizer import LIWCFeaturizer
 
 
 class EmoIntFeaturizer(Featurizer):
@@ -37,10 +38,11 @@ class EmoIntFeaturizer(Featurizer):
             NRCHashtagSentimentFeaturizer(),
             Sentiment140Featurizer(),
             SentiWordNetFeaturizer(),
-            SentiStrengthFeaturizer(),
+            # SentiStrengthFeaturizer(),
             NegationFeaturizer(),
-            EdinburghEmbeddingsFeaturizer(),
-            EmojiEmbeddingsFeaturizer()
+            # EdinburghEmbeddingsFeaturizer(),
+            # EmojiEmbeddingsFeaturizer(),
+            LIWCFeaturizer()
         ]
         self._features = self.collect_features(self.featurizers)
 
@@ -59,7 +61,7 @@ class EmoIntFeaturizer(Featurizer):
         """Dimension of feature space"""
         return len(self._features)
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """Featurize using the following featurizers
             1. AFINNValenceFeaturizer
             2. BingLiuFeaturizer
@@ -77,5 +79,5 @@ class EmoIntFeaturizer(Featurizer):
         """
         features = []
         for featurizer in self.featurizers:
-            features += featurizer.featurize(tokens)
+            features += featurizer.featurize(text, tokenizer)
         return features

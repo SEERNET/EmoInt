@@ -23,14 +23,16 @@ class NegationFeaturizer(Featurizer):
     def features(self):
         return [self.id + "-" + "count"]
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         count = 0
+        tokens = tokenizer.tokenize(text)
         for token in tokens:
             if token in self.lexicon_map:
                 count += 1
         return [count]
 
-    def create_lexicon_mapping(self, lexicon_path):
+    @staticmethod
+    def create_lexicon_mapping(lexicon_path):
         """Creates a map from lexicons to either positive or negative
         :param lexicon_path path of lexicon file (in gzip format)
         """

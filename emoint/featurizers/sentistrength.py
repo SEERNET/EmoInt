@@ -46,10 +46,12 @@ class SentiStrengthFeaturizer(Featurizer):
     def features(self):
         return [self.id + '-' + x for x in ['positive', 'negative']]
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """This function returns sum of intensities of positive and negative tokens
-        :param tokens list of tokens
+        :param text text to featurize
+        :param tokenizer tokenizer to tokenize text
         """
+        tokens = tokenizer.tokenize(text)
         data = '+'.join(tokens).encode('utf-8').decode("utf-8", "ignore")
         score = self.senti_obj.computeSentimentScores(data)
         splits = score.rstrip().split(' ')

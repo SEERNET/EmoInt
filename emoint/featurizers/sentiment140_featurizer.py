@@ -43,14 +43,16 @@ class Sentiment140Featurizer(SentimentIntensityLexiconFeaturizer):
                          ' arXiv preprint arXiv:1308.6242 (2013).'
         self.bigram = bigram
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """Featurize tokens using Saif Mohammad Sentiment140 Lexicon featurizer
-        :param tokens tokens to featurize
+        :param text text to featurize
+        :param tokenizer tokenizer to tokenize text
         """
+        tokens = tokenizer.tokenize(text)
         unigrams = tokens
         if self.bigram:
             bigrams = get_bigrams(tokens)
-            return [x + y for x, y in zip(super(Sentiment140Featurizer, self).featurize(unigrams),
-                                          super(Sentiment140Featurizer, self).featurize(bigrams))]
+            return [x + y for x, y in zip(super(Sentiment140Featurizer, self).featurize_tokens(unigrams),
+                                          super(Sentiment140Featurizer, self).featurize_tokens(bigrams))]
         else:
-            super(Sentiment140Featurizer, self).featurize(unigrams)
+            super(Sentiment140Featurizer, self).featurize_tokens(unigrams)

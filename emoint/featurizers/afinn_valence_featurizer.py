@@ -36,14 +36,16 @@ class AFINNValenceFeaturizer(SentimentIntensityLexiconFeaturizer):
                          ' microblogs." arXiv preprint arXiv:1103.2903 (2011).'
         self.bigram = bigram
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """Featurize tokens using AFINN Valence Lexicons
-        :param tokens tokens to featurize
+        :param text: text to featurize
+        :param tokenizer: tokenizer to tokenize text
         """
+        tokens = tokenizer.tokenize(text)
         unigrams = tokens
         if self.bigram:
             bigrams = get_bigrams(tokens)
-            return [x + y for x, y in zip(super(AFINNValenceFeaturizer, self).featurize(unigrams),
-                                          super(AFINNValenceFeaturizer, self).featurize(bigrams))]
+            return [x + y for x, y in zip(super(AFINNValenceFeaturizer, self).featurize_tokens(unigrams),
+                                          super(AFINNValenceFeaturizer, self).featurize_tokens(bigrams))]
         else:
-            return super(AFINNValenceFeaturizer, self).featurize(unigrams)
+            return super(AFINNValenceFeaturizer, self).featurize_tokens(unigrams)

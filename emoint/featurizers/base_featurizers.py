@@ -1,6 +1,8 @@
-from abc import ABCMeta, abstractmethod
 import gzip
+from abc import ABCMeta, abstractmethod
 from collections import defaultdict
+
+import numpy as np
 
 
 class Featurizer(object):
@@ -24,9 +26,9 @@ class Featurizer(object):
         return len(self.features)
 
     @abstractmethod
-    def featurize(self, tokens):
-        """Method to create features from the tokens"""
-        raise NotImplementedError("Implement method to featurize tokens")
+    def featurize(self, text, tokenizer):
+        """Method to create features from text"""
+        raise NotImplementedError("Implement method to featurize text")
 
     @property
     def citation(self):
@@ -67,27 +69,36 @@ class EmbeddingFeaturizer(Featurizer):
         """Method to populate lexicon to features mapping"""
         raise NotImplementedError("Implement method to populate lexicon to features mapping")
 
-    def featurize(self, tokens):
-        """Averaging word embeddings"""
-        sum_vec = [0.0] * self.dim
+    def featurize(self, text, tokenizer):
+        """Averaging word embeddings
+        """
+        sum_vec = np.zeros(shape=(self.dim,))
+        tokens = tokenizer.tokenize(text)
         for token in tokens:
             if token in self.embedding_map:
-                sum_vec = [a + b for a, b in zip(sum_vec, self.embedding_map[token])]
+                sum_vec = sum_vec + self.embedding_map[token]
         denom = len(tokens)
-        sum_vec = [num / denom for num in sum_vec]
+        sum_vec = sum_vec / denom
         return sum_vec
 
-    def create_embedding_mapping(self, lexicon_path):
+    @staticmethod
+    def create_embedding_mapping(lexicon_path, word_first=True, leave_head=False):
         """Creates a map from words to word embeddings
+        :param leave_head: Leave first line or not
+        :param word_first: Whether the word is at starting or ending
         :param lexicon_path path of lexicon file (in gzip format)
         """
         with gzip.open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
-            lexicon_map = {}
-            for l in lines:
-                splits = l.decode('utf-8').split('\t')
-                # assert (self.dim == len(splits) - 1)
-                lexicon_map[splits[-1]] = [float(num) for num in splits[:-1]]
+        if leave_head:
+            lines = lines[1:]
+        lexicon_map = {}
+        for l in lines:
+            splits = l.split(' ')
+            if word_first:
+                lexicon_map[splits[0]] = np.asarray(splits[1:], dtype='float32')
+            else:
+                lexicon_map[splits[-1]] = np.asarray(splits[:-1], dtype='float32')
         return lexicon_map
 
 
@@ -112,11 +123,13 @@ class SentimentLexiconFeaturizer(LexiconFeaturizer):
                 lexicon_map[splits[0]] = splits[1]
         return lexicon_map
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """This function returns count of positive and negative tokens
-        :param tokens list of tokens
+        :param text: text to featurize
+        :param tokenizer: tokenizer to tokenize text
         """
         positive_count, negative_count = 0.0, 0.0
+        tokens = tokenizer.tokenize(text)
         for token in tokens:
             if token in self.lexicon_map:
                 if self.lexicon_map[token] == 'positive':
@@ -147,9 +160,24 @@ class SentimentIntensityLexiconFeaturizer(LexiconFeaturizer):
                 lexicon_map[splits[0]] = float(splits[1])
         return lexicon_map
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """This function returns sum of intensities of positive and negative tokens
-        :param tokens list of tokens
+        :param text: text to featurize
+        :param tokenizer: tokenizer to tokenize text
+        """
+        positive_score, negative_score = 0.0, 0.0
+        tokens = tokenizer.tokenize(text)
+        for token in tokens:
+            if token in self.lexicon_map:
+                if self.lexicon_map[token] >= 0:
+                    positive_score += self.lexicon_map[token]
+                else:
+                    negative_score += self.lexicon_map[token]
+        return [positive_score, negative_score]
+
+    def featurize_tokens(self, tokens):
+        """This function returns sum of intensities of positive and negative tokens
+        :param tokens tokens to featurize
         """
         positive_score, negative_score = 0.0, 0.0
         for token in tokens:
@@ -165,6 +193,19 @@ class EmotionLexiconFeaturizer(LexiconFeaturizer):
     """Sentiment Intensity Featurizer is where we have mappings from lexicons to Intensity (Positive, Negative)"""
 
     __metaclass__ = ABCMeta
+
+    def get_missing(self, text, tokenizer):
+        tokens = tokenizer.tokenize(text)
+        tc, mc = 0.0, 0.0
+        for token in tokens:
+            tc += 1
+            if not token in self.lexicon_map:
+                mc += 1
+        if tc == 0:
+            return 1.0
+        else:
+            # print("Total: {}, Missing: {}".format(tc, mc * 1.0 / tc * 1.0))
+            return mc * 1.0 / tc * 1.0
 
     @staticmethod
     def emotions():
@@ -192,11 +233,13 @@ class EmotionLexiconFeaturizer(LexiconFeaturizer):
 
         return lexicon_map
 
-    def featurize(self, tokens):
+    def featurize(self, text, tokenizer):
         """This function returns score of tokens belonging to different emotions
-        :param tokens list of tokens
+        :param text: text to featurize
+        :param tokenizer: tokenizer to tokenize text
         """
         sum_vec = [0.0] * len(self.features)
+        tokens = tokenizer.tokenize(text)
         for token in tokens:
             if token in self.lexicon_map:
                 sum_vec = [a + b for a, b in zip(sum_vec, self.lexicon_map[token])]
