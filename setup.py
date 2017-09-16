@@ -1,11 +1,15 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+from pip.req import parse_requirements
 
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+install_reqs = parse_requirements('requirements.txt', session='session')
+reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='EmoInt',
@@ -27,11 +31,8 @@ setup(
     keywords='sentiment emotion affective computing machine learning',
     packages=find_packages(),
     setup_requires=[
-        # Setuptools 18.0 properly handles Cython extensions.
-        'setuptools>=18.0',
-        'cython',
     ],
-    install_requires=[],
+    install_requires=reqs,
     extras_require={},
     package_data={
         'emoint': ['resources/*', 'resources/NRC-Hashtag-Sentiment-Lexicon-v0.1/*', 'resources/SentiStrength/*',

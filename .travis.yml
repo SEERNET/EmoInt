@@ -3,10 +3,9 @@ python:
   - "2.7"
 install:
   - pip install -U pip wheel setuptools
-  - pip install cython
-  - pip install -r requirements.txt
-  - pip install .
-  - pip install coveralls
+  - pip install coveralls --quiet
+  - pip install cython --quiet
+  - pip install -r requirements.txt --extra-index-url $PYPI_HOST --quiet
 
 script: coverage run --source=. -m unittest discover -v
 

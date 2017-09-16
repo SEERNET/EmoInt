@@ -1,10 +1,10 @@
---extra-index-url https://seernet-pypi.herokuapp.com/
+--extra-index-url $PYPI_HOST
 Cython
 xgboost
 sklearn
 pandas
 scipy
 numpy
-jnius
+pyjnius
 tweetokenize
 nltk
