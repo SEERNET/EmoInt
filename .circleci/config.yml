@@ -1,0 +1,71 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: ubuntu:14.04
+    working_directory: ~/circulate
+    steps:
+      - checkout
+      - run:
+          name: Install Python Pip JDK
+          command: |
+            apt-get update && apt-get install -y python python-pip python-dev software-properties-common git
+            add-apt-repository -y ppa:openjdk-r/ppa
+            apt-get update && apt-get install -y openjdk-8-jdk
+            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      - run:
+          name: Private Pypi Config Setup
+          command: |
+            echo "[distutils]" >> ~/.pypirc
+            echo "index-servers = pypi-private" >> ~/.pypirc
+            echo "[pypi-private]" >> ~/.pypirc
+            echo "repository=$PYPI_HOST" >> ~/.pypirc
+            echo "username=$PYPI_USERNAME" >> ~/.pypirc
+            echo "password=$PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: Pre-install Virtual Env
+          command: |
+            pip install virtualenv
+            virtualenv venv
+      - restore_cache:
+          key: deps2.7-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Dependencies
+          command: |
+            . venv/bin/activate
+            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            pip install -U pip wheel setuptools
+            pip install cython
+            pip install coveralls
+            pip install -r requirements.txt --extra-index-url $PYPI_HOST
+      - save_cache:
+          key: deps2.7-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+      - run:
+          name: Test
+          command: |
+            . venv/bin/activate
+            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            coverage run --source=. -m unittest discover -v
+            coverage report
+            COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN coveralls --verbose
+      - run:
+          name: Push To Private Pypi Server
+          command: |
+            . venv/bin/activate
+            python setup.py bdist_wheel upload -r $PYPI_HOST
+            python setup.py sdist upload -r $PYPI_HOST
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
