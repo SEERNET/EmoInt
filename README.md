@@ -65,7 +65,7 @@ python -m unittest discover -v
 ```
 
 ## Acknowledgement
-This is open source work of [DeepAffects](deepaffects.com). [DeepAffects](https://www.deepaffects.com/dashboard)
+This is open source work of [DeepAffects](https://www.deepaffects.com). [DeepAffects](https://www.deepaffects.com/dashboard)
 is an emotional intelligence analysis engine that measures the effect emotional intelligence
 has on team dynamics, and provides emotional analytics that serve as the basis of insights to improve
 project management, performance and satisfaction across organizations, projects, and teams.
