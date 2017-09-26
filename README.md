@@ -50,5 +50,25 @@ python -m unittest discover -v
 ```
 
 ## Maintainers
-- [Venkatesh Duppada](venkatesh-1729.github.io)
-- [Sushant Hiray](sushant-hiray.github.io)
+- [Venkatesh Duppada](https://venkatesh-1729.github.io)
+- [Sushant Hiray](https://sushant-hiray.me)
+
+## Citation
+```
+@inproceedings{duppada2017seernet,
+  title={Seernet at EmoInt-2017: Tweet Emotion Intensity Estimator},
+  author={Duppada, Venkatesh and Hiray, Sushant},
+  booktitle={Proceedings of the 8th Workshop on Computational Approaches to Subjectivity, Sentiment and Social Media Analysis},
+  pages={205--211},
+  year={2017}
+}
+```
+
+## Acknowledgement
+This is open source work of [DeepAffects](deepaffects.com). [DeepAffects](https://www.deepaffects.com/dashboard)
+is an emotional intelligence analysis engine that measures the effect emotional intelligence
+has on team dynamics, and provides emotional analytics that serve as the basis of insights to improve
+project management, performance and satisfaction across organizations, projects, and teams.
+To watch DeepAffects in action: check out DeepAffects
+[Atlassian JIRA addon](https://marketplace.atlassian.com/plugins/com.deepaffects.teams.jira/cloud/overview) 
+and our [Github addon](https://teams.deepaffects.com/).
