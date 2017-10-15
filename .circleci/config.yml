@@ -6,7 +6,6 @@ jobs:
       - image: ubuntu:14.04
     working_directory: ~/circulate
     steps:
-      - checkout
       - run:
           name: Install Python Pip JDK
           command: |
@@ -24,6 +23,7 @@ jobs:
             echo "repository=$PYPI_HOST" >> ~/.pypirc
             echo "username=$PYPI_USERNAME" >> ~/.pypirc
             echo "password=$PYPI_PASSWORD" >> ~/.pypirc
+      - checkout
       - run:
           name: Pre-install Virtual Env
           command: |
