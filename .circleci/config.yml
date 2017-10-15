@@ -35,6 +35,7 @@ jobs:
           name: Install Dependencies
           command: |
             . venv/bin/activate
+            python -m nltk.downloader -u https://pastebin.com/raw/D3TBY4Mj punkt
             export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
             export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
             pip install -U pip wheel setuptools
@@ -49,6 +50,7 @@ jobs:
           name: Test
           command: |
             . venv/bin/activate
+            python -m nltk.downloader -u https://pastebin.com/raw/D3TBY4Mj punkt
             export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
             export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
             coverage run --source=emoint -m unittest discover -v

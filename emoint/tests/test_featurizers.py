@@ -20,6 +20,9 @@ from emoint.featurizers.senti_wordnet_featurizer import SentiWordNetFeaturizer
 from emoint.featurizers.sentiment140_featurizer import Sentiment140Featurizer
 from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
 
+import nltk
+nltk.download('punkt')
+
 
 class TestMPQAEffectFeaturizer(TestCase):
     def test_featurizer(self):
