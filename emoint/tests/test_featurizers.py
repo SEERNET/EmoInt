@@ -139,20 +139,20 @@ class TestNRCHashtagEmotionFeaturizer(TestCase):
             msg='Expected: {} != Got: {}'.format(expected, got)
         )
 
-
-class TestSentiStrengthFeaturizer(TestCase):
-    def test_featurizer(self):
-        featurizer = SentiStrengthFeaturizer()
-        got = featurizer.featurize('good day', Tokenizer(allcapskeep=False))
-        expected = [2, -1]
-
-        self.assertListEqual(
-            expected,
-            got,
-            msg='Expected: {} != Got: {}'.format(expected, got)
-        )
-
-
+# 
+# class TestSentiStrengthFeaturizer(TestCase):
+#     def test_featurizer(self):
+#         featurizer = SentiStrengthFeaturizer()
+#         got = featurizer.featurize('good day', Tokenizer(allcapskeep=False))
+#         expected = [2, -1]
+# 
+#         self.assertListEqual(
+#             expected,
+#             got,
+#             msg='Expected: {} != Got: {}'.format(expected, got)
+#         )
+# 
+# 
 class TestSentiWordNetFeaturizer(TestCase):
     def test_featurizer(self):
         featurizer = SentiWordNetFeaturizer()
