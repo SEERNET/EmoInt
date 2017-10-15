@@ -50,6 +50,7 @@ jobs:
           name: Test
           command: |
             . venv/bin/activate
+            pip install nltk
             python -m nltk.downloader -u https://pastebin.com/raw/D3TBY4Mj punkt
             export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
             export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64

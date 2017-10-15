@@ -1,9 +1,9 @@
 --extra-index-url $PYPI_HOST
 Cython
+nltk
 xgboost
 sklearn
 pandas
 scipy
 numpy
 tweetokenize
-nltk
