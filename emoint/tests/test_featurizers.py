@@ -220,7 +220,7 @@ class TestLIWCFeaturizer(TestCase):
     def test_featurizer(self):
         featurizer = LIWCFeaturizer()
         got = featurizer.featurize('', Tokenizer(allcapskeep=False))
-        self.assertEqual(len(got), 80)
+        self.assertTrue(len(got) == 446)
 
 
 class TestEmojiSentimentRanking(TestCase):

@@ -4,6 +4,7 @@ import nltk
 import numpy as np
 from collections import Counter
 
+
 from emoint.featurizers.base_featurizers import Featurizer
 from emoint.utils.utils import LIWCTrie
 from utils import liwc_lexicon_path
@@ -39,6 +40,7 @@ class LIWCFeaturizer(Featurizer):
                 pair = (x.split('\t')[0], [categories[y] for y in x.strip().split('\t')[1:]])
                 liwc_trie.insert(pair[0], pair[1])
             except Exception as ex:
+                print(ex)
                 pass
         return categories.values(), liwc_trie
 
@@ -46,7 +48,6 @@ class LIWCFeaturizer(Featurizer):
         """Initialize LIWC Lexicon Featurizer
         :param lexicons_path path to lexicons file
         """
-        nltk.download('punkt', quiet=True)
         self._id = 'LIWC'
         self.categories, self.liwc_trie = self.create_lexicon_mapping(lexicons_path)
         self._features = ['total_word_count', 'avg_sentence_length', 'dictionary_words',
@@ -61,7 +62,7 @@ class LIWCFeaturizer(Featurizer):
     @staticmethod
     def percentage(a, b):
         # return a
-        return (a * 100.0) / (b * 1.0 + 1.0)
+        return (a*100.0)/(b*1.0+1.0)
 
     @staticmethod
     def punctuations():
@@ -78,8 +79,10 @@ class LIWCFeaturizer(Featurizer):
         for x, y in counts.items():
             liwc[x] = self.percentage(y, liwc['total_word_count'])
 
+
     def featurize(self, text, tokenizer):
         liwc = {}
+
         text = text.decode('utf8')
 
         num_capital_words = len(re.findall(r"[A-Z]['A-Z]*", text))
@@ -116,3 +119,5 @@ class LIWCFeaturizer(Featurizer):
         self.set_punctuation_counts(text, liwc)
 
         return [liwc[x] for x in self.features]
+
+

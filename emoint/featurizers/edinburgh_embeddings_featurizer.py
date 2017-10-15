@@ -25,13 +25,13 @@ class EdinburghEmbeddingsFeaturizer(EmbeddingFeaturizer):
     def citation(self):
         return self._citation
 
-    def __init__(self, embedding_path=edinburgh_embedding_path, dim=100, word_first=False, leave_head=False):
+    def __init__(self, embedding_path=edinburgh_embedding_path, dim=100):
         """Initialize Edinburgh Embeddings Featurizer
         :param embedding_path path to embeddings file
         """
         self._id = 'Edinburgh'
         self._dim = dim
-        self._embedding_map = self.create_embedding_mapping(embedding_path, word_first=word_first, leave_head=leave_head)
+        self._embedding_map = self.create_embedding_mapping(embedding_path)
         self._citation = 'Bravo-Marquez, Felipe, Eibe Frank, and Bernhard Pfahringer.' \
                          ' "From unlabelled tweets to twitter-specific opinion words."' \
                          ' Proceedings of the 38th International ACM SIGIR Conference on Research and Development in' \

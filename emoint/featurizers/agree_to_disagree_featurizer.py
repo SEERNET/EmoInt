@@ -37,7 +37,9 @@ class AgreeToDisagree(Featurizer):
             NRCHashtagSentimentFeaturizer(),
             Sentiment140Featurizer(),
             SentiWordNetFeaturizer(),
+            # SentiStrengthFeaturizer(),
             NegationFeaturizer(),
+            # EdinburghEmbeddingsFeaturizer(),
             LIWCFeaturizer()
         ]
         self._features = self.collect_features(self.featurizers)

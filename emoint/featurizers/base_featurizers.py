@@ -1,7 +1,6 @@
-import gzip
 from abc import ABCMeta, abstractmethod
+import gzip
 from collections import defaultdict
-
 import numpy as np
 
 
@@ -82,23 +81,23 @@ class EmbeddingFeaturizer(Featurizer):
         return sum_vec
 
     @staticmethod
-    def create_embedding_mapping(lexicon_path, word_first=True, leave_head=False):
+    def create_embedding_mapping(lexicon_path):
         """Creates a map from words to word embeddings
-        :param leave_head: Leave first line or not
-        :param word_first: Whether the word is at starting or ending
         :param lexicon_path path of lexicon file (in gzip format)
         """
-        with gzip.open(lexicon_path, 'rb') as f:
+        import numpy as np
+        print("Started createing")
+        i = 0
+        with open(lexicon_path, 'rb') as f:
             lines = f.read().splitlines()
-        if leave_head:
-            lines = lines[1:]
-        lexicon_map = {}
-        for l in lines:
-            splits = l.split(' ')
-            if word_first:
+            lexicon_map = {}
+            for l in lines:
+                if i%1000000 == 0:
+                    print(i)
+                i = i+1
+                splits = l.split(' ')
                 lexicon_map[splits[0]] = np.asarray(splits[1:], dtype='float32')
-            else:
-                lexicon_map[splits[-1]] = np.asarray(splits[:-1], dtype='float32')
+        print("Started createing")
         return lexicon_map
 
 
@@ -244,3 +243,4 @@ class EmotionLexiconFeaturizer(LexiconFeaturizer):
             if token in self.lexicon_map:
                 sum_vec = [a + b for a, b in zip(sum_vec, self.lexicon_map[token])]
         return sum_vec
+

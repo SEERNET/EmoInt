@@ -1,11 +1,24 @@
+import logging
 import os
+
+# from gcloud import storage
 
 
 def list_files(base_path, predicate):
-    for folder, subs, files in os.walk(base_path):
-        for filename in files:
-            if predicate(os.path.join(folder, filename)):
-                yield (os.path.join(folder, filename))
+    if base_path.startswith("gs://"):
+        prefix = 'gs://'
+        bucket_name = base_path.split('/')[2]
+        client = storage.Client()
+        bucket = client.get_bucket(bucket_name)
+        for f in bucket.list_blobs():
+            if predicate(f.name):
+                logging.info("Found file: {}".format(prefix + bucket_name + '/' + f.name))
+                yield prefix + bucket_name + '/' + f.name
+    else:
+        for folder, subs, files in os.walk(base_path):
+            for filename in files:
+                if predicate(os.path.join(folder, filename)):
+                    yield (os.path.join(folder, filename))
 
 
 class LIWCTrie:
@@ -78,3 +91,6 @@ class LIWCTrie:
 
     def __contains__(self, item):
         return self.in_trie(item)
+
+
+
