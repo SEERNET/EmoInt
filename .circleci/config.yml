@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Install Python Pip JDK
           command: |
-            apt-get update && apt-get install -y python python-pip python-dev software-properties-common git
+            apt-get update && apt-get install -y python python-pip python-dev software-properties-common git openssh-server
             add-apt-repository -y ppa:openjdk-r/ppa
             apt-get update && apt-get install -y openjdk-8-jdk
             export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
