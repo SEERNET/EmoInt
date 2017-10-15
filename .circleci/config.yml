@@ -47,12 +47,6 @@ jobs:
           paths:
             - "venv"
       - run:
-          name: Push To Private Pypi Server
-          command: |
-            . venv/bin/activate
-            python setup.py bdist_wheel upload -r $PYPI_HOST
-            python setup.py sdist upload -r $PYPI_HOST
-      - run:
           name: Test
           command: |
             . venv/bin/activate
@@ -62,7 +56,13 @@ jobs:
             coverage run --source=emoint -m unittest discover -v
             coverage report
             COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN coveralls --verbose
-     - store_artifacts:
+      - run:
+          name: Push To Private Pypi Server
+          command: |
+            . venv/bin/activate
+            python setup.py bdist_wheel upload -r $PYPI_HOST
+            python setup.py sdist upload -r $PYPI_HOST
+      - store_artifacts:
           path: test-reports/
           destination: tr1
 
