@@ -5,6 +5,5 @@ sklearn
 pandas
 scipy
 numpy
-pyjnius
 tweetokenize
 nltk
