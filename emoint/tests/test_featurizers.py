@@ -18,7 +18,7 @@ from emoint.featurizers.nrc_hashtag_emotion_featurizer import NRCHashtagEmotionF
 from emoint.featurizers.nrc_hashtag_sentiment_featurizer import NRCHashtagSentimentFeaturizer
 from emoint.featurizers.senti_wordnet_featurizer import SentiWordNetFeaturizer
 from emoint.featurizers.sentiment140_featurizer import Sentiment140Featurizer
-from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
+# from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
 
 
 class TestMPQAEffectFeaturizer(TestCase):
