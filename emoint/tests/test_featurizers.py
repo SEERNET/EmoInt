@@ -20,9 +20,6 @@ from emoint.featurizers.senti_wordnet_featurizer import SentiWordNetFeaturizer
 from emoint.featurizers.sentiment140_featurizer import Sentiment140Featurizer
 from emoint.featurizers.sentistrength import SentiStrengthFeaturizer
 
-import nltk
-nltk.download('punkt')
-
 
 class TestMPQAEffectFeaturizer(TestCase):
     def test_featurizer(self):
@@ -181,51 +178,51 @@ class TestNegationFeaturizer(TestCase):
             msg='Expected: {} != Got: {}'.format(expected, got)
         )
 
-
-class TestEdinburghEmbeddingFeaturizer(TestCase):
-    def test_featurizer(self):
-        featurizer = EdinburghEmbeddingsFeaturizer()
-        got = featurizer.featurize('i don\'t like it', Tokenizer(allcapskeep=False))
-        self.assertTrue(len(got) == 100)
-
-
-class TestEmojiEmbeddingFeaturizer(TestCase):
-    def test_featurizer(self):
-        featurizer = EmojiEmbeddingsFeaturizer()
-        got = featurizer.featurize('😂', Tokenizer(allcapskeep=False))
-        self.assertTrue(len(got) == 300)
-
-
-from emoint.utils.utils import LIWCTrie
-
-
-class TestTrie(TestCase):
-    def test_trie(self):
-        trie = LIWCTrie()
-        trie.insert('abuse*', [4, 5, 6])
-        trie.insert('abilit*', [1, 2, 3])
-        trie.insert('band', [7, 8, 9])
-
-        self.assertTrue(trie.in_trie('abuse'), "abuse should be in trie")
-        self.assertTrue(trie.in_trie('ability'), "ability should be in trie")
-        self.assertTrue(trie.in_trie('band'), "band should be in trie")
-        self.assertFalse(trie.in_trie('ban'), "ban shouldn't be in trie")
-        self.assertFalse(trie.in_trie('abus'), "abus shouldn't be in trie")
-
-        self.assertListEqual(trie.get('abuse'), [4, 5, 6])
-        self.assertListEqual(trie.get('ability'), [1, 2, 3])
-        self.assertListEqual(trie.get('band'), [7, 8, 9])
-        self.assertIsNone(trie.get('ban'))
-        self.assertIsNone(trie.get('abus'))
-
-
-class TestLIWCFeaturizer(TestCase):
-    def test_featurizer(self):
-        featurizer = LIWCFeaturizer()
-        got = featurizer.featurize('', Tokenizer(allcapskeep=False))
-        self.assertTrue(len(got) == 446)
-
-
+# 
+# class TestEdinburghEmbeddingFeaturizer(TestCase):
+#     def test_featurizer(self):
+#         featurizer = EdinburghEmbeddingsFeaturizer()
+#         got = featurizer.featurize('i don\'t like it', Tokenizer(allcapskeep=False))
+#         self.assertTrue(len(got) == 100)
+# 
+# 
+# class TestEmojiEmbeddingFeaturizer(TestCase):
+#     def test_featurizer(self):
+#         featurizer = EmojiEmbeddingsFeaturizer()
+#         got = featurizer.featurize('😂', Tokenizer(allcapskeep=False))
+#         self.assertTrue(len(got) == 300)
+# 
+# 
+# from emoint.utils.utils import LIWCTrie
+# 
+# 
+# class TestTrie(TestCase):
+#     def test_trie(self):
+#         trie = LIWCTrie()
+#         trie.insert('abuse*', [4, 5, 6])
+#         trie.insert('abilit*', [1, 2, 3])
+#         trie.insert('band', [7, 8, 9])
+# 
+#         self.assertTrue(trie.in_trie('abuse'), "abuse should be in trie")
+#         self.assertTrue(trie.in_trie('ability'), "ability should be in trie")
+#         self.assertTrue(trie.in_trie('band'), "band should be in trie")
+#         self.assertFalse(trie.in_trie('ban'), "ban shouldn't be in trie")
+#         self.assertFalse(trie.in_trie('abus'), "abus shouldn't be in trie")
+# 
+#         self.assertListEqual(trie.get('abuse'), [4, 5, 6])
+#         self.assertListEqual(trie.get('ability'), [1, 2, 3])
+#         self.assertListEqual(trie.get('band'), [7, 8, 9])
+#         self.assertIsNone(trie.get('ban'))
+#         self.assertIsNone(trie.get('abus'))
+# 
+# 
+# class TestLIWCFeaturizer(TestCase):
+#     def test_featurizer(self):
+#         featurizer = LIWCFeaturizer()
+#         got = featurizer.featurize('', Tokenizer(allcapskeep=False))
+#         self.assertTrue(len(got) == 446)
+# 
+# 
 class TestEmojiSentimentRanking(TestCase):
     def test_featurizer(self):
         featurizer = EmojiSentimentRanking()
