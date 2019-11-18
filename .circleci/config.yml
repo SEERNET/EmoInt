@@ -3,18 +3,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: phusion/baseimage
+      - image: circleci/openjdk:8-jdk
     working_directory: ~/circulate
     steps:
       - run:
           name: Install Python Pip JDK
           command: |
             apt-get -qq update
-            apt-get -y install git openssh-client python python-pip python-dev software-properties-common
-            add-apt-repository -y ppa:openjdk-r/ppa
-            apt-get update && apt-get install -y openjdk-8-jdk
-            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            apt-get -y install git openssh-client python3 python3-pip python3-dev software-properties-common
       - checkout
       - run:
           name: Private Pypi Config Setup
@@ -28,30 +24,30 @@ jobs:
       - run:
           name: Pre-install Virtual Env
           command: |
-            pip install virtualenv
-            virtualenv venv
+            pip3 install virtualenv
+            virtualenv -p python3 venv
       - restore_cache:
-          key: deps2.7-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps3.5-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install Dependencies
           command: |
             . venv/bin/activate
-            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-            pip install -U pip wheel setuptools
-            pip install cython
-            pip install coveralls
-            pip install -r requirements.txt --extra-index-url $PYPI_HOST
+            export JDK_HOME=/usr/local/openjdk-8
+            export JAVA_HOME=/usr/local/openjdk-8
+            pip3 install -U pip wheel setuptools
+            pip3 install cython
+            pip3 install coveralls
+            pip3 install -r requirements.txt --extra-index-url $PYPI_HOST
       - save_cache:
-          key: deps2.7-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          key: deps3.5-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv"
       - run:
           name: Test
           command: |
             . venv/bin/activate
-            export JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-            export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+            export JDK_HOME=/usr/local/openjdk-8
+            export JAVA_HOME=/usr/local/openjdk-8
             coverage run --source=emoint -m unittest discover -v
             coverage report
             COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN coveralls --verbose
@@ -59,8 +55,8 @@ jobs:
           name: Push To Private Pypi Server
           command: |
             . venv/bin/activate
-            python setup.py bdist_wheel upload -r $PYPI_HOST
-            python setup.py sdist upload -r $PYPI_HOST
+            python3 setup.py bdist_wheel upload -r $PYPI_HOST
+            python3 setup.py sdist upload -r $PYPI_HOST
       - store_artifacts:
           path: test-reports/
           destination: tr1
