@@ -17,7 +17,7 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='EmoInt',
-    version='0.1.0',
+    version='0.1.1',
     description='Affective Computing',
     long_description=long_description,
     url='https://github.com/seernet/EmoInt',

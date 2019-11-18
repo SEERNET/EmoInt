@@ -1,4 +1,5 @@
---extra-index-url $PYPI_HOST
+--extra-index-url $PYPI_HOST_WITH_CRED
+--trusted-host pypi.deepaffects.com
 Cython
 xgboost
 sklearn
@@ -6,5 +7,5 @@ pandas
 scipy
 numpy
 pyjnius
-tweetokenize
+tweetokenize==1.1.0
 nltk

@@ -37,7 +37,7 @@ jobs:
             pip3 install -U pip wheel setuptools
             pip3 install cython
             pip3 install coveralls
-            pip3 install -r requirements.txt --extra-index-url $PYPI_HOST
+            pip3 install -r requirements.txt
       - save_cache:
           key: deps3.5-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
