@@ -6,7 +6,7 @@ from collections import Counter
 
 from emoint.featurizers.base_featurizers import Featurizer
 from emoint.utils.utils import LIWCTrie
-from utils import liwc_lexicon_path
+from .utils import liwc_lexicon_path
 
 """
 Info: http://liwc.wpengine.com/

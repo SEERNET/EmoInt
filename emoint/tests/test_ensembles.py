@@ -25,7 +25,7 @@ class TestEnsembles(unittest.TestCase):
         with open(out_file, 'r') as f:
             got = f.read().splitlines()
         self.assertListEqual(
-            [float(x) for x in got],
+            [round(float(x), 1) for x in got],
             expected,
             msg='Expected: {} != Got: {}'.format(expected, got)
         )
