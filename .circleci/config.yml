@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Test
           command: |
-            . venv/bin/activate
+            . ~/venv/bin/activate
             export JDK_HOME=/usr/local/openjdk-8
             export JAVA_HOME=/usr/local/openjdk-8
             coverage run --source=emoint -m unittest discover -v
