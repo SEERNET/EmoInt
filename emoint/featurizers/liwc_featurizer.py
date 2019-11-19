@@ -40,7 +40,7 @@ class LIWCFeaturizer(Featurizer):
                 liwc_trie.insert(pair[0], pair[1])
             except Exception as ex:
                 pass
-        return categories.values(), liwc_trie
+        return list(categories.values()), liwc_trie
 
     def __init__(self, lexicons_path=liwc_lexicon_path):
         """Initialize LIWC Lexicon Featurizer
@@ -80,7 +80,8 @@ class LIWCFeaturizer(Featurizer):
 
     def featurize(self, text, tokenizer):
         liwc = {}
-        text = text.decode('utf8')
+        if not isinstance(text, str):
+            text = text.decode('utf8')
 
         num_capital_words = len(re.findall(r"[A-Z]['A-Z]*", text))
         words = re.findall(r"[a-z]['a-z]*", text.lower())
