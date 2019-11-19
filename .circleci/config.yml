@@ -41,7 +41,7 @@ jobs:
       - save_cache:
           key: deps3.5-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
-            - "venv"
+            - "~/venv"
       - run:
           name: Test
           command: |

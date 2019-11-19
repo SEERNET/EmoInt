@@ -1,4 +1,4 @@
---extra-index-url $PYPI_HOST_WITH_CRED
+--extra-index-url $PYPI_HOST
 --trusted-host pypi.deepaffects.com
 Cython
 xgboost
