@@ -6,5 +6,5 @@ pandas
 scipy
 numpy
 pyjnius
-tweetokenize==1.1.0
 nltk
+tweetokenize==1.1.0
