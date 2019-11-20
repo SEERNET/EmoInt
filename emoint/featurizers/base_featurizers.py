@@ -94,7 +94,10 @@ class EmbeddingFeaturizer(Featurizer):
             lines = lines[1:]
         lexicon_map = {}
         for l in lines:
-            splits = l.split(' ')
+            if isinstance(l, str):
+                 splits = l.split(' ')
+            else:
+                splits = l.decode('utf-8').split('\t')
             if word_first:
                 lexicon_map[splits[0]] = np.asarray(splits[1:], dtype='float32')
             else:

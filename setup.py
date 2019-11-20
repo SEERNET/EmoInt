@@ -1,7 +1,11 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
-from pip.req import parse_requirements
+
+try: # for pip >= 10
+    from pip._internal.req import parse_requirements
+except ImportError: # for pip <= 9.0.3
+    from pip.req import parse_requirements
 
 here = path.abspath(path.dirname(__file__))
 
@@ -13,7 +17,7 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='EmoInt',
-    version='0.1.0',
+    version='0.1.2',
     description='Affective Computing',
     long_description=long_description,
     url='https://github.com/seernet/EmoInt',

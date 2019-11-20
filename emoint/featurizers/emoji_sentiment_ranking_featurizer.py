@@ -34,7 +34,10 @@ class EmojiSentimentRanking(Featurizer):
         rows = csv.DictReader(open(lexicons_path), )
         emoji_map = {}
         for row in rows:
-            emoji_map[row['Emoji'].decode('utf-8')] = [
+            tmp = row['Emoji']
+            if not isinstance(tmp, str):
+                tmp = row['Emoji'].decode('utf-8')
+            emoji_map[tmp] = [
                 float(row['Negative'])/float(row['Occurrences']),
                 float(row['Positive'])/float(row['Occurrences']),
                 float(row['Neutral'])/float(row['Occurrences'])

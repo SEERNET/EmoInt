@@ -1,11 +1,11 @@
 language: python
 python:
-  - "2.7"
+  - "3.5"
 install:
-  - pip install -U pip wheel setuptools
-  - pip install coveralls --quiet
-  - pip install cython --quiet
-  - pip install -r requirements.txt --extra-index-url $PYPI_HOST --quiet
+  - pip3 install -U pip wheel setuptools
+  - pip3 install coveralls --quiet
+  - pip3 install cython --quiet
+  - pip3 install -r requirements.txt --extra-index-url $PYPI_HOST_WITH_CRED --quiet
 
 script: coverage run --source=. -m unittest discover -v
 
