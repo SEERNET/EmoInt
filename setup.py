@@ -39,7 +39,7 @@ setup(
     install_requires=reqs,
     extras_require={},
     package_data={
-        'emoint': ['resources/*gz', 'resources/*csv', 'resources/*dic', 'resources/*gz', 'resources/*jar', 'resources/NRC-Hashtag-Sentiment-Lexicon-v0.1/*', 'resources/SentiStrength/*',
+        'emoint': ['resources/*gz', 'resources/*csv', 'resources/*dic', 'resources/*jar', 'resources/NRC-Hashtag-Sentiment-Lexicon-v0.1/*', 'resources/SentiStrength/*',
                    'resources/Sentiment140-Lexicon-v0.1/*', 'resources/emoint/*']
     },
     data_files=[],
