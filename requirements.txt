@@ -7,4 +7,4 @@ scipy
 numpy
 pyjnius
 nltk
-tweetokenize==1.1.0
+tweetokenize==1.0.1

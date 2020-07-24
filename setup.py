@@ -17,7 +17,7 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name='EmoInt',
-    version='0.1.2',
+    version='0.1.3',
     description='Affective Computing',
     long_description=long_description,
     url='https://github.com/seernet/EmoInt',
@@ -39,7 +39,7 @@ setup(
     install_requires=reqs,
     extras_require={},
     package_data={
-        'emoint': ['resources/*', 'resources/NRC-Hashtag-Sentiment-Lexicon-v0.1/*', 'resources/SentiStrength/*',
+        'emoint': ['resources/*gz', 'resources/*csv', 'resources/*dic', 'resources/*jar', 'resources/NRC-Hashtag-Sentiment-Lexicon-v0.1/*', 'resources/SentiStrength/*',
                    'resources/Sentiment140-Lexicon-v0.1/*', 'resources/emoint/*']
     },
     data_files=[],
